@@ -3,6 +3,7 @@ pipeline {
 
     options {
         timeout(time: 15, unit: 'MINUTES') // catches hangs (network, slow pulls) instead of running forever
+        buildDiscarder(logRotator(numToKeepStr: '10')) // keep last 10 builds' logs/artifacts, discard older
     }
 
     environment {
@@ -40,8 +41,9 @@ pipeline {
 
         stage('Security Scan Report') {
             steps {
-                // full report, medium and up
-                sh '"$TRIVY_BIN"/trivy image --severity MEDIUM,HIGH,CRITICAL "$IMAGE_NAME:$IMAGE_TAG"'
+                // full report, medium and up - saved to a file so it can be archived
+                sh '"$TRIVY_BIN"/trivy image --severity MEDIUM,HIGH,CRITICAL "$IMAGE_NAME:$IMAGE_TAG" | tee trivy-report.txt'
+                archiveArtifacts artifacts: 'trivy-report.txt'
             }
         }
 

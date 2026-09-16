@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --omit=dev # production deps only, no jest/supertest in the image
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx # sly solution, just remove it before it hits production
 
 COPY app.js ./
 

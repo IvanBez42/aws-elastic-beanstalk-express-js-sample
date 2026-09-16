@@ -8,5 +8,5 @@ RUN npm ci --omit=dev # production deps only, no jest/supertest in the image
 
 COPY app.js ./
 
-EXPOSE 8081
+EXPOSE 8080
 CMD ["node", "app.js"]

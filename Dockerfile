@@ -1,6 +1,8 @@
 # Node 22 LTS (currently maintained) - Node 16 is EOL, Trivy flagged CVEs
 FROM node:22-alpine
 
+RUN apk update && apk upgrade --no-cache # another security automation
+
 WORKDIR /app
 
 COPY package*.json ./

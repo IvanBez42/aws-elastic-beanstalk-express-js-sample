@@ -1,5 +1,5 @@
-# Node 16 but smaller images so less attack surface 
-FROM node:16-alpine
+# Node 22 LTS (currently maintained) - Node 16 is EOL, Trivy flagged CVEs
+FROM node:22-alpine
 
 WORKDIR /app
 
